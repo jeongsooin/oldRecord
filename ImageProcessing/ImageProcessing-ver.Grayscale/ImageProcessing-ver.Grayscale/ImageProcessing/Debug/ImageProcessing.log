@@ -1,0 +1,30 @@
+﻿  stdafx.cpp
+  ViewTree.cpp
+  PropertiesWnd.cpp
+  OutputWnd.cpp
+  MainFrm.cpp
+  ImageProcessingView.cpp
+  ImageProcessingDoc.cpp
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(551): warning C4244: '=': 'double'에서 'unsigned char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(553): warning C4244: '=': 'double'에서 'unsigned char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(555): warning C4244: '=': 'double'에서 'unsigned char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(1107): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(1108): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(1111): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(1114): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(1159): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(1160): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(1163): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(1166): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+g:\imageprocessing-ver.04_24\imageprocessing\imageprocessingdoc.cpp(1259): warning C4552: '*': 의미 없는 연산자입니다. 파생 작업이 있는 연산자여야 합니다.
+  ImageProcessing.cpp
+  FileView.cpp
+  DiologZoomR.cpp
+  DiaolgHIST.cpp
+  DialogIP.cpp
+  ConstantDlg.cpp
+  ClassView.cpp
+  ChildFrm.cpp
+  코드를 생성하고 있습니다...
+  LINK : G:\ImageProcessing-ver.04_24\ImageProcessing\Debug\ImageProcessing.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+  ImageProcessing.vcxproj -> G:\ImageProcessing-ver.04_24\ImageProcessing\Debug\ImageProcessing.exe

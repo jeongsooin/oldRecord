@@ -1,0 +1,16 @@
+﻿  ImageProcessingDoc.cpp
+m:\실습\imageprocessing\imageprocessingdoc.cpp(232): warning C4101: 'j' :참조되지 않은 지역 변수입니다.
+  코드를 생성하고 있습니다...
+  건너뛰고 있습니다... (관련된 변경 내용 없음)
+  ViewTree.cpp
+  PropertiesWnd.cpp
+  OutputWnd.cpp
+  MainFrm.cpp
+  ImageProcessingView.cpp
+  ImageProcessing.cpp
+  FileView.cpp
+  DiologZoomR.cpp
+  ClassView.cpp
+  ChildFrm.cpp
+  ImageProcessing.vcxproj -> M:\실습\ImageProcessing\x64\Debug\ImageProcessing.exe
+  ImageProcessing.vcxproj -> M:\실습\ImageProcessing\x64\Debug\ImageProcessing.pdb (Full PDB)

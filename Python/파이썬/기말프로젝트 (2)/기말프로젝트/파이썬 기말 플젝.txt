@@ -1,0 +1,802 @@
+
+보고서 형식
+(1) 상세히 기록한 작업일지
+(2) 프로그램 기능에 대한 설명
+(3) 실행 화면 캡쳐
+(4) 느낀점 및 배운점
+
+6월 5일 일요일 1번 프로그램 시작
+오후 3시 14분
+파일 읽어오기까지만 작업
+
+2번으로 넘어감 오후 7시 51분
+2번은 파일에서 불러와서 사용자가 입력하는 글자로 문자를 대체하는 방식으로 바꿀까?
+강의 자료에 있던 tab을 4개의 space로 바꾸는 프로그램처럼 하면 될꺼 같은뎃
+텍스트파일로 이름을 만들었고 이제 불러와서 바꾸는 걸 만들어봐야겠다 강의자료 참고해서
+
+음 일단 그냥 생각나는대로 해봤는데 안된다.
+저번에 했던거에서 줄바꿈 문자 빼고 받았었는데 그것처럼 받아야 하나??
+오 내가 코드를 잘못 적었었군
+import re
+import sys
+
+try:
+    f=open("name.txt",'r')
+except:
+    print("Please check the file is in same directory.")
+
+character=f.read()
+p = re.compile("\*")
+print(p.sub("&",character))
+
+
+같이 적어야 하는데 print함수에 인자로 character가 아닌, p를 넣어주었다.
+일단 문자로 바꾸는건 잘 된다.
+그럼 sub함수에서 받을거를 사용자에게 입력 받도록 해야 한다. 
+수정해 보자
+음 for루프를 사용하라는 것이 re.compile을 쓰지 말라는건가??
+흠..그렇게 되면 다시 해야 하는데.. 어쨌든 해보자
+import re
+import sys
+
+try:
+    f=open("name.txt",'r')
+except:
+    print("Please check the file is in same directory.")
+
+character=f.read()
+for char in character:
+    if char=="*":
+        char="&"
+    else:
+        pass
+print(character)
+
+for문으로 바꿔 보았는데 그냥 읽었던 파일 그대로 뜬다. 음 리스트로 수정을 안해줘서 그런가?
+다시 고쳐보자 리스트값이 바뀌도록
+TypeError: 'str' object does not support item assignment
+''로 바꿔야하는건가
+TypeError: 'str' object does not support item assignment
+마찬가지..
+음 문제가 뭘까? 잘모르겠다.. 그럼 다른 방법을 생각해보자.
+복잡하고 좀 무식한 방법으로는 리스트의 인덱스값을 반환 받은 다음에, 해당 인덱스를 제거하고 그다음에 바꾸려는 문자로 해당 인덱스 부분에 넣도록 만들 수 있다.
+그리고 또 뭐가 있을까..
+
+음 일단 *에 해당하는 인덱스를 찾는것은 받았다. 그럼 제거한 뒤에 새로운 문자로 집어넣는 코드를 추가해보자
+TypeError: 'str' object doesn't support item deletion
+음....검색해보니 파이썬에서 str은 변경할 수 없는 자료형이라 안된다고 한다. 그래서 del함수는 안먹힌다. 
+그럼.. 무슨 방법으로 해야지? 리스트로는 할 수 없을 것 같다.
+아니면 같은 리스트 말고 새로운 리스트에 만들게 할까??? 한번 해보자. 
+import re
+import sys
+
+try:
+    f=open("name.txt",'r')
+except:
+    print("Please check the file is in same directory.")
+
+character=f.read()
+new_character = []
+for i in character:
+    j=character.index('*')
+    k=character.index('\n')
+    new_character.insert(j,'&')
+    new_character.insert(k,'\n')
+print(new_character)
+
+음.. 되긴 되는데 제대로 안되고 끊임없이 출력됨. 그리고 줄 바꿈 문자도 저게 아닌가봐 r\'n'이거로 해야되나?
+    k=character.index(r'\n')
+ValueError: substring not found
+
+뭐지 공백으로 해야되나 공백으로 바꿔서 되긴 됐는데...
+file로 다시 써서 출력하게 해야되나??
+정말로? ㅠㅠ 그거밖엔 방법이 없는건가... 
+f.readlines()를 이용해보자 줄바꿈문자때문에..
+음 그러면 출력이 제대로 안된다. 안되겠군f.read에서 줄바꿈 문자까지 모두 읽어오는거겠지?
+새로운 리스트로 만드는거 말고 파일에 다시 쓰게 만들어야겠다
+조건은 공백이 아닐시로 하면되지 않을까.
+import re
+import sys
+
+try:
+    f=open("name.txt",'r')
+except:
+    print("Please check the file is in same directory.")
+
+character=f.read()
+print(character)
+new_character = character.replace("&","*")
+f=open("name.txt",'w')
+f.write(new_character)
+f.close()
+
+f=open("name.txt",'r')
+result=f.read()
+print(result)
+이렇게 하니까 되는데... for문을 어디다 쓰라는건지 모르겠다 
+으윽 여기까지 하는데 벌써 9시 20분이다 ㅠㅠ 빨리 해결해야 할텐데..
+
+for문안에서 파일에서 읽어오 ㄴ내용을 잘 처리하나 보려고
+for i in name:
+    if i == '*':
+        index=name.index('*')
+        print(index)
+    else:
+        pass
+
+다음과 같이 작성해봤더니, 온통 1만 프린트된다.음.....뭐가 문제지 
+for루프 조건이 문제인가
+for char in range(len(name)):
+    if char == '*':
+        index=name.index('*')
+        print(index)
+    else:
+        pass
+아무것도 출력이 안된다... 흠
+for i in name:
+    if(i !=" " or i !=r'\n'):
+        print(i)와 같이 해봤는데, 제대로 탐색을 못하는듯 하다. 
+
+아 공부해보니까, 리스트에 다음과 같이 저장이 된다고 한다.
+'*\n*\n\*n.....'
+음 그러면 어떻게 할 수 있을까?
+for i in name:
+    if(i !=" "):
+        print(i)
+
+로 바꾸니 엔터는 빼고 출력이 되는거 같다. 
+아닌가...
+음 새 파일을 만들어서 쓰게 해야겠다..
+좀 단순무식하지만.. ㅠ
+오 이렇게 하니까 되긴 됨..ㅎ 파일 생성했다 다시 지워주고 그래야겠다
+루프안에서 돌도록 해야지
+
+import os
+try:
+    f=open("name.txt",'r')
+except:
+    print("Please check the file is in same directory.")
+name=[]
+name=f.read()
+f.close()
+print(name)
+user_char = input("문자를 입력하세요")
+print(user_char)
+f=open("new.txt",'w')
+for i in name:
+    if (i=="*"):
+        f.write(user_char)
+    if (i == " "):
+        f.write(" ")
+    if (i=="\n"):
+        f.write("\n")
+    else:
+        pass
+f.close()
+f=open("new.txt",'r')
+newname = f.read()
+print(newname)
+f.close()
+
+try:
+    os.remove("new.txt")
+except:
+    "다른 프로세스에서 파일을 사용중입니다."
+
+일단 여기까지 성공...
+좀더 편의사항등을 추가해보고 싶다.프로그램을 끝내거나 종료하고,
+원하는 한 계속 다른 문자를 바꿔가며 출력하게 해야하고
+그러면 메뉴에서 다른 인풋이 들어왓을때 제어를 해야하고,
+파일에서 사용자가 문자 선택할때도 제어를 해야한다. 
+문자하나 말고 두개 넣어서 시험해볼까? 
+NameError: name 'name' is not defined
+음 함수로 나눠 놓으니까 지역변수가 돼서 못 읽나보군. 인자로 줘야하나
+으으음.... 자꾸 오류가 나서 일단 함수로 분리하지는 않고 메인 코드에 두엇다 ㅠㅠ 역시 함수로 놓으면
+예외 상황이 많이 생긴다..
+문자 2개로 입력해도 출력은 된다.
+숫자로 입력해도 되고 알파벳도 되고 한글도 되는데 모양이 이상할 뿐
+while 루프에서 입력받을때 정수 입력까지는 괜찮은데, 문자 등을 입력하면 오류가 나고 프로그램이 죽는다.
+어떻게 막을까?
+http://python337.blogspot.kr/2011/11/15_11.html
+예외처리 참고
+안내문구들을 조금 더 추가하고 일단은 여기까지 해야겠다.
+오후 11시 26분(3시간 35분 작업)
+
+11시 43분 3번 프로그램 시작
+음 이것저것 생각해 봤는데 리스트를 이용해볼까?
+쉽게 생각하자 쉽게 생각...어렵게 만드려하지말고 허접해도 쉬운거 생각하자..
+음...사용자로부터 수식을 입력받아서...곱하기 나누기 더하기 빼기 4종류
+정수 연산자와 사칙연산 연산자를 구분해서..
+각각 리스트에 저장한 다음에..음 어떻게 하지? 음...수식 입력받기 부터가 난황이군. 
+일단 입력을 받아보자 
+
+formula = input("수식을 입력하세요.")
+print(formula)
+
+수식입력은 받아지는데... 연산자 우선순위에 따라서 어떻게 나누지?
+일단은.. 
+곱하기 = 나누기 > 더하기 = 빼기 이고, 같은 우선 순위일 경우에는 앞에 나오는것이..
+음 문자열로 입력받으랬는데 input은 문자열 입력이 맞군. 
+음.. 둘을 구분해서 뭔갈 해야할거 같은데... 일단 문자열에서 연산자만 고를 수 있는지 확인하자
+연산자는 4개밖에 없으니까.
+formula = input("수식을 입력하세요.")
+print(formula)
+operator = []
+for i in formula:
+    if ( i == "*" or i == "/" or i == "-" or i == "+"):
+        operator.append(i)
+    else:
+        pass
+print(operator)
+
+음 일단 문자열이라도 수식은 구분이 되는구나.
+그럼 숫자를 만났을때는 정수로 형변환이 되어야 하는데..
+숫자끼리도 구분이 되나 한번 해보자
+formula = input("수식을 입력하세요.")
+print(formula)
+operator = []
+integer = [] 
+for i in formula:
+    if ( i == "*" or i == "/" or i == "-" or i == "+"):
+        operator.append(i)
+    else:
+        integer.append(i)
+print(operator)
+print(integer)
+이것도 가능하다. 음 그럼 이제 어떻게 해야하나.. 근데 되긴 하는데 전부 한자리 단위로 구분이 되버린다.
+이건 어쩌지? 한번에 입력하게 해야 하는디.
+어쩌지..
+스플릿 함수를 쓸 수 있을까? 한 번 해보자
+http://ngee.tistory.com/634 참고
+formula = input("수식을 입력하세요.")
+print(formula)
+operator = []
+integer = [] 
+list = formula.split("+"or"-"or"*"or"/")
+print(list)
+흠 이러니까 안되는데..
+순서대로만 해도 다 나뉘지 않을까?
+다시..엥 나눠지긴 하는데 제거한게 사라지잖아 ㅠ 음 내가 리스트 형으로 안해서 그랬다 잘 되네
+음... 순서대로 하면 나눠지지가 않네 가장 마지막으로 나눈걸로 업데이트 되버리고 
+
+
+음...안된다 다른 방법을 찾아야겠다
+http://hashcode.co.kr/questions/493/%EC%97%AC%EB%9F%AC%EA%B0%9C-%EB%AC%B8%EC%9E%90%EB%A5%BC-%EA%B8%B0%EC%A4%80%EC%9C%BC%EB%A1%9C-%EB%AC%B8%EC%9E%90%EC%97%B4%EC%9D%84-%EC%9E%90%EB%A5%B4%EB%8A%94-%EB%B0%A9%EB%B2%95%EC%9D%B4-%EC%9E%88%EB%82%98%EC%9A%94
+참고
+
+#3번.py
+import re
+
+
+formula = input("수식을 입력하세요.")
+print(formula)
+lista=[]
+lista = re.split('\w+',formula)
+print(lista)
+
+분리가 되긴 하는데... 정수는 저장이 안됨 ㅜㅠㅜ 
+http://egloos.zum.com/sweeper/v/3065126
+참고
+#3번.py
+import re
+
+
+formula = input("수식을 입력하세요.")
+print(formula)
+
+result = re.split('[*+/-]+',formula)
+print(result)
+
+휴,,,, 드디어 분리했다....ㅠㅠㅠ 오전 1시 20분...
+#3번.py
+import re
+
+
+formula = input("수식을 입력하세요.")
+print(formula)
+
+integers = re.split('[*+/-]+',formula)
+print(integers)
+operators = []
+for i in formula:
+    if ( i =='*' or i =='/' or i =='+' or i == '-' ):
+        operators.append(i)
+    else:
+        pass
+print(operators)
+
+음..나누긴 했는데 어쩌징
+문자열을 정수로 일단 바꿔야 하나
+그건 프로그래밍 리포트할 때 했었다. 굿
+
+#3번.py
+import re
+
+
+formula = input("수식을 입력하세요.")
+print(formula)
+
+integers = re.split('[*+/-]+',formula)
+print(integers)
+operators = []
+for i in formula:
+    if ( i =='*' or i =='/' or i =='+' or i == '-' ):
+        operators.append(i)
+    else:
+        pass
+print(operators)
+integers = list(map(int,integers))
+print(integers)
+
+여기까지 잘 된다! 그럼 이제 어떻게하지..흠 연산자를 연산자 우선 순위에 따라 계산해줘야하는데..
+
+4*12-100/2 예를 들어 이런 식이라면 * -> / -> - 계산한다. 
+하,,계속 생각해봤는데 모르겠어 ㅠㅠㅜ  알듯말듯...
+음.. 연산자 우선순위에 따라서 리스트에서 각각 꺼내서 계산을 시켜볼까
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\3번.py", line 23, in <module>
+    result1 = integers[index]+operators[index]+integers[index+1]
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+>>> 
+
+안됨..... ㅠ.ㅡ.ㅡ.ㅜ.
+일단 여기까지 하고 내일 해야겠다... 오전 2시 30분
+
+6월 6일 오후 12시 22분 3번 이어서
+음 입력을 아예 따로따로 받아서 숫자만 저장했다가 꺼낼걸 그랬나
+한번 해보까 정수는 입력받아 리스트에 저장하고
+연산자는 입력받을때 검사해서 우선순위에 따라 그 전 인덱스와 다음으로 들어오는거 꺼내고..? 흠...
+음 연산자 리스트도 정수형으로 변환가능한가?
+for i in operators:
+    if (i == "*"or i == "/"):
+        index = operators.index(i)
+
+operators = list(map(int,operators))
+print(operators)
+빈 리스트가 되네.. 음 양옆에 '' 떼버릴 수 없나 
+음 변환을 먼저 하지 말고
+각각 리스트에서 맞는 순서대로 일단 먼저 병합한 다음에 변환해서 계산할까?
+안되네...
+다시 고민해보자...연산자는 문자로 입력돼서 계산을 못하니까 그냥 함수로 만들어서 대신하게 해야겠다
+integers[index]*integers[index+1] 이거로는 안되는데....
+연산자 오버로딩? 은 클래스 안에서 되는거고
+람다? 람다를 써볼까
+sum = lambda a,b:a+b
+div = lambda a,b:a/b
+mul = lambda a,b:a*b
+sub = lambda a,b:a-b
+일단 교재에 있는거 보고 만들기만 함 이걸 어떻게 써야하지??
+연산자 우선순위 따지는게 가장 문제다. 리스트에서 뭔가 꺼낼때는 pop이라서 꺼내는건 마지막밖에 못 꺼내고
+꺼낸건 지워진다. 지워지는거야 이미 계산했으니 상관없는데 마지막밖에 못 꺼내면.. 음
+그럼 연산자 순서를 뒤집으면 괜찮지 않을까
+오 그럼 마지막에 있는것들 꺼내서 하면 순서가 맞는다. 근데 우선순위는 고려 못하지...
+ㅇ우선순위를 어떻게 고려하게 하지?
+일단 연산자 리스트를 읽은 다음에 우선순위가 더 낮은게 읽히면 그때 계산을 하게 해야하나?
+으음.....한번 해볼까 operators.reverse() 순서 뒤집는거는 일단 이걸로 됐다 그다음에 이걸 읽어서 하나씩 꺼내서 계산하고
+음... 다음것도 이어서 계산해야 하니까 계산한 값을 다시 리스트에 넣어야 되잖아?? 
+근데 순위에 따라 계산학[ 하는게 참 막막하군.. 어떻게 할 수 있을까 조건문?
+조건을 어떻게 짜야할까
+나누기랑 곱하기는 우선순위가 같고 높으니까 만나면 그냥 연산하고
+빼기랑 더하기는 우선순위가 낮으니까 뒤에 나누기랑 곱하기가 없으면 연산해야 하는데...
+for i in operators:
+    if (i == "*" or i == "/"):
+        if (i == "*"):
+            integers.append(mul(integers.pop(),integers.pop()))
+        if (i == "/"):
+            integers.append(div(integers.pop(),integers.pop()))
+오 여기까지만 해봤는데 여기까지는 된다.
+더하기랑 빼기일때 조건을 더해주면 된다. 음... 조건을 어덯게 해야하지 
+뒤에 인덱스를 읽어서 둘다 곱하기나 나누기가 아니면 연산하게? 너무 무식한가
+리스트에서 카운트라는 함수 써서 그거 썻을때 둘다 0이면 연산하게 해야 하나?
+근데 이미 연산한거는 pop처럼 안지워 지니까... 
+그럼 연산한거를 remove로 지울까 연산하고 난 거는 
+for i in operators:
+    if (i == "*" or i == "/"):
+        if (i == "*"):
+            integers.append(mul(integers.pop(),integers.pop()))
+            operators.remove("*")
+        if (i == "/"):
+            integers.append(div(integers.pop(),integers.pop()))
+            operators.remove("/")
+        if (i =="+" or i == "-"):
+            if (operators.count("*")==0 and operators.count("/")==0):
+                if (i == "+"):
+                    integers.append(sum(integers.pop(),integers.pop()))
+                    operators.remove("+")
+                if (i == "-"):
+                    integers.append(sub(integers.pop(),integers.pop()))
+                    operators.remove("-")
+연산결과가 제대로 안나옴 리스트에 정수 1개만 남아야 하는데 2개 남고,
+연산 순서도 안맞음. pop으로 빼서.. 
+더하기 뺴기 만나면 마지막거는 pop해서 가지고 있다가 곱하기 나누기 연산한거랑 빼야지 
+음 그럼 곱하기 나누기 하나도 없을때랑 하나라도 있을때랑 코드가 달라지는데... 어떻게 하지?
+앗 팝한 연산 순서도 바뀌었잖아 음...
+더 나중에 뺀게 더 앞이 되어야 하는데 
+그럼 연산자 말고 숫자들을 리버스 하면 되는거 같은데 한번 해볼까 음 이렇게 하니까 되네 
+그럼 - + 만났을때 마지막 숫자를 스킵하도록 해야하는데.. 그걸 고민해보자,.pop했다가 + - 연산 들어가기 전에 넣어주면
+안되나? pop할때까지는 정의되지 않아서 안되네 그럼 temp를 빈리스트로 설정하고 합치게 해볼까?
+마지막께 빠져야 되는데 왜 안빠질까
+for 루프에 문제가 있나...while로 해볼까
+왜 더하기랑 빼기일때 조건을 못 읽지??
+while integers!=[]:
+    for i in operators:
+        if (i == "+" or i == "-"):
+            integers.pop()
+            print(integers)
+        elif (i == "*" or i == "/"):
+            if (i == "*"):
+                integers.append(mul(integers.pop(),integers.pop()))
+                operators.remove("*")
+                print(integers)
+                print(operators)
+            if (i == "/"):
+                integers.append(div(integers.pop(),integers.pop()))
+                operators.remove("/")
+                print(integers)
+                print(operators)
+문제가 있다.. 다시 해봐ㅈ야ㅣㅈ 처음 부터 ㅠㅠ 
+후,,,, 그럼 어떻게 하지 ㅠ 곱하기나 나누기 나오면 괄호로 묶고 계산하게? 그건 또 어떻게 구현해..  
+좀 쉬었다 해야겠다.. 오후 2시 57분
+
+오후 5시 17분 다시 시작
+1번 시작
+텍스트 파일을 읽어와서 해당 단어가 몇번 있는지 세는건 만들었는데, 공백단위로 나눴기 때문에 조사가 붙은건 못찾는다.. 흠
+영어 파일로 바꿀가 ㅎ 
+이
+그렇지 않으면 패턴으로 매치하는지 찾아야 한다 .
+텍스트 파일은 바꾸자. 좀더 패턴이 단순한 것으로 바꾸고...음 의미있는 프로그램이 될 수 있도록 하는 것이 좋겠다.
+예를 들어 물품 리스트에서 어떤 물건이 몇개 있는지 찾는다거나
+음 그밖에 또 뭐가 있을까?
+6시 15분
+
+
+6월 10일 금요일 오전 12시 33분 
+2번 프로그램 다시 시작
+2번을 완전히 수정해야 함 ㅠㅠ 프로그램 방향이 잘못되었다.
+이름 폰트에 대한 2차원 배열을 만들자. 
+폰트를 만들고 가로로 출력할때, 같은 라인을 같이 한번에 출력해야 하니까
+같은 라인일때 리스트를 더하던지 해서? for문으로 같은 라인을 기준으로 돌려 출력하게 해야겠다/ 
+폰트 사이즈가 너무 크다.. 줄이자
+1시 15분
+
+오후 12시 30분 아무래도 그냥 배열 정의하는것보다 파일 읽는게 예쁜것 같아서..
+폰트는 파일로 다시 만들었다 프로그램내에 배열로 정의하지 않고 ㅠ
+아 안돼 아 짜증나ㅣㅇ러미나ㅓ레ㅏㄱ넣 ㅑㅔㅐㅠㄱ더ㅔ';ㅑㄱ어 ㅋ햐ㅔ;ㅐㄱ;ㄷ멓'ㅔㅐㅑㄱㄷㅋ
+
+
+오후 9시 22분 프로그램 다시 시작
+가져온 폰트파일을 2차원 배열에 저장하는것 까지 성공
+하나 가져왔으니 나머지도 모두 가져와서 넣어보자
+이름 한글자를 사용자가 입력한 문자로 바꾸어 출력하는 것 까지는 성공했다.
+    for i in font1:
+        if i == "*":
+            sys.stdout.write(user_char)
+        else:
+            sys.stdout.write(i)
+
+사용자가 입력한 글자로 바꾸는것 까지는 되는데, 이걸 1줄에 모두 출력해야 한다. 어떻게 해야할까?
+문자열이 범위값을 벗어났다고 하네 문제가 뭐지? 
+그냥 배열로 선언하고 바꿈
+range는 마지막 범위는 포함하지 않는걸 까먹어서 계속 끝이 잘린 리스트 출력됨
+고침
+리스트의 같은 각 라인을 같이 출력하는 방법 고민 중
+
+def printfont(list=list1,list=list2,list=list3):
+    for height in range(0,11): #range 는 마지막 수 미포함
+        for width in range(0,13):
+            if list1 [height][width] == 1:
+                if width == 12:
+                    sys.stdout.write("*\n")
+                else:
+                    sys.stdout.write("*")
+            elif list1 [height][width] == 0:
+                if width == 12:
+                    sys.stdout.write("\n")
+                else:
+                    sys.stdout.write(" ")
+
+순환적으로? 해봐야되남
+6월 11일 오전 1시 31분 드디어 완성 ㅠㅠ
+리스트의 같은 행끼리 같이 출력하도록 만들었다ㅜㅜㅜ
+한글자만 입력하게 해볼까 오전 1시 56 분 완성 
+
+
+오전 1시 57번 1번 프로그램 시작
+한글 노래 가사와 영어 노래 가사가 들어간 input text로 프로그램 시작
+일단은 파일 안에 있는 데이터를 모두 공백 또는 줄바꿈 문자 단위로 나누어 리스트로 저장함.
+이제 리스트 안에 있는 데이터별로 몇회 같은 문자가 나오는지 세서 데이터:횟수의 딕셔너리 형태로 자료 구현하기. 
+
+딕셔너리에서 value값이 큰 순서대로 상우 10개를 그래프로 표현할 것임 
+value값을 기준으로 정렬한다.
+음 정렬하고 보니 인풋에 따라서 각 x 값에 해당하는 y축의 크기가 달라질텐데 이걸 제어할 필요가 있을거 같다. 흠흠
+
+음 딕셔너리에서 키 값을 뽑아 생성한 리스트로는 인덱싱을 지원 안하네
+그래프 그릴때 x 축 값으로 리스트 인덱싱해서 넣을 수 있는데... 흠 그럼 인덱싱을 할 수 있게 리스트를 만들어야지 '
+음..딕셔너리로는 직접적인 인덱싱이 안되서 튜플로 하려면 튜플은 한번 값쓰면 변경이 안되니 생성이
+ 어렵고 ... 흠
+sorted 된 딕셔너리는 딕셔너리 자료형이 아니다. 그래서 키값만을 뽑아서 리스트를 만들 수 없다.
+그런데 인덱싱은 된다. value값까지 같이 읽혀서 문제지. sorted 함수가 무슨 객체를 반환하는건지 찾아봐야겠다. 
+list로 반환되네 튜플이 원소인 리스트인듯
+http://egloos.zum.com/oniondev/v/9725096
+튜플로 이루어진 리스트에서 튜플의 특정 인덱스 값만 뽑아서 리스트로 만드는 법 참고.
+안해도 되긴 하는데 그래프 이쁘게 만들려고... 여기까지 하고 내일 이어서 해야겠다 오전 3시 47분
+
+오전 10시 47분 프로그램2 다시 시작
+음 x 값이 10개가 안나올때도 있을텐데 그건 어떻게 제어하지?
+음..그래프는 그리는데 여러가지 제어상황들이 필요하다. 
+크기가 최고치를 넘어 버릴때는 했다. 값이 10개가 안나올때는 어떻게 하지?
+인덱스의 out of range 에러가 나오면서 프로그램이 죽는다. 길이를 세서 10개가 안될때는 null 값이랑 0으로 채워주자
+여기까지도 했고..
+또 어떤 경우가 있지 음 일단 여기까지 하고 3번까지 다 한 뒤에 또 생각해보자 오전 11시 45분 프로그램 1번 끝
+
+오후 1시 24분 3번 프로그램 시작
+
+으으음....일단 우선순위가 있는 것들만 뽑아서 계산할 수 있어야 함.
+
+for i in operators:
+
+    temp = []    
+    option1 = operators.count("*")
+    option2 = operators.count("/")
+    if option1 == 0 and option2 == 0:
+        Flag = True
+        pass
+    else:
+        Flag = False
+        pass
+
+    if i == "*" or i == "/":
+        if i == "*":
+            integers.append(mul(integers.pop(),integers.pop()))
+            operators.remove("*")
+            continue
+        else:
+            integers.append(div(integers.pop(),integers.pop()))
+            operators.remove("/")
+            continue
+    else:
+        if Flag == True and i == "+":
+            integers = temp + integers
+            integers.append(add(integers.pop(),integers.pop()))
+            operators.remove("+")
+            continue
+        elif Flag == True and i == "-":
+            inegers = temp + integers
+            integers.append(sub(integers.pop(),integers.pop()))
+            operators.remove("-")
+            continue
+        elif Flag == False and i =="+":
+            temp.append(integers.pop())
+            operators.remove("+")
+            operators.append("+")
+            continue
+        elif Flag == False and i =="-":
+            temp.append(integers.pop())
+            operators.remove("-")
+            operators.append("-")
+            continue
+4*2-100/2
+위와 같이 정수 피연산자 4개와 연산자 3개로 이루어진 수식을 입력해주세요.
+수식을 입력하세요.4*2-100/2
+4*2-100/2
+['4', '2', '100', '2']
+['*', '-', '/']
+[4, 2, 100, 2]
+[2, 100, 2, 4]
+[2, 0.08]
+>>> 
+여전히 안된다 ㅠㅠ 뭘 어떻게 해야하지??
+처음부터 컨셉을 다시 잡아야 하나 
+문제는 for 루프 안에서 조건문이 제대로 검사가 안된다는 거.. 다시 설계해보자 오후 3시 
+
+6월 12일 오후 1시 30분 3번 프로그램 다시 시작
+
+우선순위를 따지는게.... 딕셔너리로 키랑 밸류를 만들어서 그걸로 검사하게 할까?
+ if로 하려니 너무 복잡해진다.
+음 그냥 연산자 리스트에서 *랑 /를 찾아서 먼저 계산하고
++와 -의 for 루프는 따로 계산하고..
+그렇게 할까
+연산자가 지워지고 나서 연산자 리스트의 길이가 변했기 때문에 인덱스를 해결할 방법을 찾아야 한다. while 문으로 돌리고 내부 변수를 선언해서
+계산해야겠다 
+
+list index out of range
+왜 자꾸 이런 에러가 뜰까
+
+음 i가 인덱스가 아닌 숫자로 들어가는건가?
+아 인덱스가 변해 버렸구나 연산한다음에는 지우게 하니까.. 흠 그럼 어떻게 해야하지?
+인티져에서도 지우게 해야 하나 
+두번재 루프에서 루프 빠져 나가는 조건을 어떻게 줘야 하나... 인덱스로 하면 역시 문제가... 생기는데 ㅠㅠ 
+흐으으으으음.......
+* / 가 몇개 있는지에 따라 경우의 수로 전부 코딩해야 하나?? ㅠㅠ
+for i in range(3):
+    count = 0
+    option1 = operators.count("*")
+    option2 = operators.count("/")
+    if (option1 == 0 and option2 == 0):
+            break
+    else:
+        count = count+1
+        if (operators[i] == "*"):
+            result.append(mul(integers[i],integers[i+1]))
+        elif (operators[i] == "/"):
+            result.append(div(integers[i],integers[i+1]))
+
+        else:
+            pass
+if count == 0:
+    result = integers
+
+for i in range(3):
+    if (operators[i] == "+"):
+        result.append(add(result[i],result[i+1]))
+        i = i+1
+    elif (operators[i] == "-"):
+        result.append(sub(result[i],result[i+1]))
+        i = i+1
+    else:
+        pass
+
+print(result)
+
+다시 해보자...
+
+음 이렇게 하니까 된다 단 count = 1 일때 경우 빼고 완성 
+count 1일때는 우선순위 연산자가 각각 첫번째 가운데, 마지막에 있을때로 나눠진다.
+간단하게 하려면 전부 나누면 되겠지. 인덱스를 중심으로...
+예외상황 : 연산자와 피연산자가 정해진 갯수 이상 들어오거나 덜 들어올때 
+더 들어올때는 그냥 예외처리 하면 되고 덜 들어올때가 문제군
+피연산자  연산자 피연산자 연산자 피연산자 연산자 순서를 지키지 않고 들어왔을때 
+
+후.. 모든 케이스에 대한 코딩은 다 했고 예외제어만 하면 되겠다. 
+가장 중요한게 연산자와 피연산자 순서 지키는거! 어떻게 예외처리 해야하징?? 일단은 여기까지만 하고 이따가 이어서 해야겠다 오후 5시 51분
+
+
+6월 14일 오후 4시 
+시험을 보고 왔다. 5개의 시험을 보느라 그동안 프로그래밍을 할 수 없었다. 다음주에도 아직 시험이 더 남았는데..
+3번의 예외처리를 하려하는데..
+연산자와 피연산자 순서를 지키도록 할 수 없을까
+돌아가는데 에러가 뜨거나 하지는 않지만, 결과값이 제대로 나오지 않는다. 
+음 연산자로 이루어진 리스트를 만들때 인덱스...가 안되는군 이건 그냥 리스트이 인덱스
+헉 식을 테스트 해봤는데 값이 잘못된 값이 나온다.
+조건문에서 뭔가 잘못됐나보다. 13이 나와야 하는데 -14가 나옴
+입력식 4/2*8-3 인데 8-3 = 5 5*2 =
+
+['4', '2', '8', '3']
+[2.0]
+[2.0, 16]
+[16, 2.0]
+[-14.0]
+[-14.0]
+프린트 문으로 찍어보니 이렇게 나온다.
+일단.. 뭐가 잘못됐냐면, result리스트가 */계산까지는 아직 정상
+2가 지워지고 16에서 남은 3을 빼야 하는데 result에서 연산을 했다.
+코드는 정수리스트에서 뽑아서 하게 했는데 이건 우연히 나누는 값이랑
+나눠진 값이랑 같아서 16까지 제대로 나온거지, 값을 한 번 계산한 뒤에 나온 값이랑 
+차례차례 되어야 하는데 그게 안됐다. 다시... 수정..
+>>> 4/2*8-3
+13.0
+>>> 
+에...왜 고치지도 않았는데 제대로 나오지...?
+뭐ㅜ지...?
+4*2-100/2
+위와 같이 정수 피연산자 4개와 연산자 3개로 이루어진 수식을 입력해주세요.
+수식을 입력하세요.3/2*8-3
+['3', '2', '8', '3']
+[1.5]
+[1.5, 16]
+[16, 1.5]
+[-14.5]
+[-14.5]
+>>> 3/2*8-3
+9.0
+>>> 
+이번에도 똑같다..! 처음엔 값 오류가 나고 두번째엔 잘 나옴..
+아 두번째거는 내 프로그램 아닌듯 ㅠㅠㅠㅠ idle shell 이라 그렇잖아 이런 멍청이 바보같은 ㅠㅠㅠㅠ
+바보 멍청이 ㅠㅠㅠ 고쳐야지...인덱스 지정으로 경우의 수 지정은 할 수 없다
+엄청 많거든! 뭐뭐 있냐면
+* 가 0번 1번 2번 인덱스 일때 
+/가 0번 1번 2번 인덱스 일때 해서 9가지 정도 ㄱ조합이 나오는듓... 
+
+
+4*2-100/2
+위와 같이 정수 피연산자 4개와 연산자 3개로 이루어진 수식을 입력해주세요.
+수식을 입력하세요.4/1*8-3
+['4', '1', '8', '3']
+[4.0]
+[32.0]
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\기말프로젝트\3번\3번.py", line 122, in <module>
+    result.append(sub(result.pop(),result.pop()))
+IndexError: pop from empty list
+>>> 
+32까지는 잘 되고.. 저 에러는 연산 다 끝났는데 돌아갈때 난다.
+for 문으로 범위를 주고 else로 예외처리 했는데 왜그럴까? [i+1] 범위 때문에 
+그런 것 같다. 아 결과값 리스트는 나왔는데
+ 그 다음 +- 연산으로 넘어간걸 수정 안해서 그렇군 그럼 integer에서 뽑아야 하는데
+어떻게 하지?
+위에서 계산한 다음에 뽑아 쓴 원소는 지워야 겠다/ 
+앗 그럼 안되지 참 인덱스가 변하지
+애초에 pop안쓴 이유가 인덱스 참조 할라 그런거였지..
+음,....... 음...
+
+음 똑같이 바꿔줬는데 왜 for문을 못돌리지?
+음음
+아.. 조건을 제대로 안바꿧군
+오 이제 제대로 된다! 
+
+다른 연산자도 확인해봐야겠다 
+
+윽 설정했던 식으로만 돌아갔던 거였음 흑 제대로 안나오네..음..
+*/ 코드가 그럼 처음으로 돌아가 버리네
+그럼 +-인덱스가 만약 중간에 있으면 다르게 하고 마지막에 있으면 현재 코드로...
+
+하 이렇게 해야되나?
+시간이 없어서 그냥 되는대로 하긴 했는데 정말 맘에 안드는 군 ㅡㅡ 
+으으으음.... 위에서 연산자 피연산자 순서 처리하는 방법용으로 생각한건데
+인덱스를 읽어서 짝수 인덱스 홀수 인덱스로 구분하는 방법이 있음
+그걸 이용할 수 있을거 같음 경우의 수는 두가지 밖에 없음
+둘이 붙어 있거나 둘이 떨어져있거나.
+떨어져 있을 수 있는건 인덱스 0 2 밖에 없음 
+
+4*2-100/2
+위와 같이 정수 피연산자 4개와 연산자 3개로 이루어진 수식을 입력해주세요.
+수식을 입력하세요.4/2*1+3'
+['4', '2', '1', "3'"]
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\기말프로젝트\3번\3번.py", line 15, in <module>
+    integers = list(map(int,integers))
+ValueError: invalid literal for int() with base 10: "3'"
+>>> 
+
+오 오류 하나 더 찾음
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\기말프로젝트\3번\3번.py", line 98, in <module>
+    if (operators[i] == "*"):
+IndexError: list index out of range
+>>> 
+
+음 연산자를 지워 버려서 그런가?
+맞군.. 
+음 다시 해보자
+휴 다짜긴 했는데 아직 오류 남았고.. 162줄이나 되고 너무 알고리즘 단순해서 맘에 안들고 ㅠㅠㅠㅠ
+흐윽
+
+올바른 수식을 어떻게 입력받게 할 수 있을까!
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\기말프로젝트\3번\3번.py", line 51, in <module>
+    integers.append(sub(integers.pop(),integers.pop()))
+IndexError: pop from empty list
+>>> 
+
+에러 또 찾았다. 어디볼까..
+역시 원인은 올바른 수식을 입력받는게 최선이다.
+음 연산자와 피연산자의 갯수를 비교하려 했는데
+그러면 순서가 틀리는거 까지는 못 잡는다,
+일단 생각난 김에 추가는 함
+
+다하긴 한거 같은데.. 또 생길지도 모르지
+일단 이 정도를 하고 소스코드 다듬고 보고서를 작성해놓아야겠다.
+오후 10시 55분
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\기말프로젝트\3번\3번.py", line 89, in <module>
+    integers.append(div(integers.pop(),integers.pop()))
+  File "C:\Users\Administrator\Desktop\기말프로젝트\3번\3번.py", line 59, in <lambda>
+    div = lambda a,b:a/b
+ZeroDivisionError: division by zero
+
+혹시나 해서 해봤더니 역시나 ~ 
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\기말프로젝트\3번\3번.py", line 209, in <module>
+    integers.append(mul(integers.pop(),integers.pop()))
+IndexError: pop from empty list
+
+음 9/0+3 과 같은 식일때 나는 오류는 어떻게 해야 하지?
+제로 디비젼 에러일때만 예외처리 해야겠다..
+0에 대한 예외처리는 내일 이어서 해야겠다
+
+블락 디스크립션은 다 추가했다. 오전 12시 37분
