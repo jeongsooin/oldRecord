@@ -10,7 +10,6 @@ ImageProcessing/ImageProcessing-ver.BMP/ImageProcessing-ver.BMP/ImageProcessing/
 ImageProcessing/ImageProcessing-ver.BMP/ImageProcessing-ver.BMP/ImageProcessing/ipch/IMAGEPROCESSING-54089efd/IMAGEPROCESSING-d430012c.ipch
 ImageProcessing/ImageProcessing-ver.BMP/ImageProcessing-ver.BMP/ImageProcessing/ipch/IMAGEPROCESSING-5955958f/IMAGEPROCESSING-d430012c.ipch
 ImageProcessing/ImageProcessing-ver.BMP/ImageProcessing-ver.BMP/ImageProcessing/ipch/IMAGEPROCESSING-6a80c245/IMAGEPROCESSING-d430012c.ipch
-*.ipch
 ImageProcessing/ImageProcessing-ver.FinalTest/ImageProcessing-ver.TeamProject/ImageProcessing_Team4.sdf
 ImageProcessing/ImageProcessing-ver.FinalTest/ImageProcessing-ver.TeamProject/ImageProcessing_Team4.VC.db
 ImageProcessing/ImageProcessing-ver.Grayscale/ImageProcessing-ver.Grayscale/ImageProcessing/x64/Debug/ImageProcessing.pch
@@ -19,3 +18,4 @@ ImageProcessing/ImageProcessing-ver.Grayscale/ImageProcessing-ver.Grayscale/Imag
 ImageProcessing/ImageProcessing-ver.FinalTest/ImageProcessing-ver.TeamProject/ImageProcessing_Team4/Debug/ImageProcessing_Team4.pch
 ImageProcessing/ImageProcessing-ver.Grayscale/ImageProcessing-ver.Grayscale/ImageProcessing/ImageProcessing.sdf
 ImageProcessing/ImageProcessing-ver.Grayscale/ImageProcessing-ver.Grayscale/ImageProcessing/ImageProcessing.VC.db
+*.ipch
